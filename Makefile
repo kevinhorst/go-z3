@@ -11,7 +11,7 @@ gofmt:
 	gofmt -s *.go >/dev/null
 
 libz3.a: vendor/z3
-	cd vendor/z3 && python3 scripts/mk_make.py --staticlib
+	cd vendor/z3 && python scripts/mk_make.py --staticlib
 	cd vendor/z3/build && ${MAKE}
 	cp vendor/z3/build/libz3.a .
 

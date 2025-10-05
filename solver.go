@@ -48,6 +48,13 @@ func (s *Solver) Check() LBool {
 	return LBool(C.Z3_solver_check(s.rawCtx, s.rawSolver))
 }
 
+// GetProof retrieves the proof for the last Z3_solver_check or Z3_solver_check_assumptions if result was Z3_L_FALSE.
+//
+// Maps to: Z3_solver_get_proof
+func (s *Solver) GetProof() string {
+	return C.GoString(C.Z3_ast_to_string(s.rawCtx, C.Z3_solver_get_proof(s.rawCtx, s.rawSolver)))
+}
+
 // Model returns the last model from a Check.
 //
 // Maps to: Z3_solver_get_model

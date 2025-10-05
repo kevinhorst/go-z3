@@ -24,3 +24,24 @@ func (c *Context) IntSort() *Sort {
 		rawSort: C.Z3_mk_int_sort(c.raw),
 	}
 }
+
+func (c *Context) Float32Sort() *Sort {
+	return &Sort{
+		rawCtx:  c.raw,
+		rawSort: C.Z3_mk_fpa_sort_single(c.raw),
+	}
+}
+
+func (c *Context) Float64Sort() *Sort {
+	return &Sort{
+		rawCtx:  c.raw,
+		rawSort: C.Z3_mk_fpa_sort_double(c.raw),
+	}
+}
+
+func (c *Context) StringSort() *Sort {
+	return &Sort{
+		rawCtx:  c.raw,
+		rawSort: C.Z3_mk_string_sort(c.raw),
+	}
+}

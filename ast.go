@@ -18,6 +18,20 @@ func (a *AST) String() string {
 	return C.GoString(C.Z3_ast_to_string(a.rawCtx, a.rawAST))
 }
 
+// Float returns the float32 value of this AST.
+func (a *AST) Float() float32 {
+	var dst C.double
+	dst = C.Z3_get_numeral_double(a.rawCtx, a.rawAST)
+	return float32(dst)
+}
+
+// Double returns the double value of this AST.
+func (a *AST) Double() float64 {
+	var dst C.double
+	dst = C.Z3_get_numeral_double(a.rawCtx, a.rawAST)
+	return float64(dst)
+}
+
 // DeclName returns the name of a declaration. The AST value must be a
 // func declaration for this to work.
 func (a *AST) DeclName() *Symbol {
@@ -50,6 +64,41 @@ func (c *Context) Int(v int, typ *Sort) *AST {
 	return &AST{
 		rawCtx: c.raw,
 		rawAST: C.Z3_mk_int(c.raw, C.int(v), typ.rawSort),
+	}
+}
+
+// Int64 creates an big int type. The value must be able to fit
+// fit in a machine int64_t integer.
+//
+// Maps: Z3_mk_int64
+func (c *Context) Int64(v int64, typ *Sort) *AST {
+	return &AST{
+		rawCtx: c.raw,
+		rawAST: C.Z3_mk_int64(c.raw, C.int64_t(v), typ.rawSort),
+	}
+}
+
+// Maps: Z3_mk_fpa_numeral_float
+func (c *Context) Float32(v float32, typ *Sort) *AST {
+	return &AST{
+		rawCtx: c.raw,
+		rawAST: C.Z3_mk_fpa_numeral_float(c.raw, C.float(v), typ.rawSort),
+	}
+}
+
+// Maps: Z3_mk_fpa_numeral_double
+func (c *Context) Float64(v float64, typ *Sort) *AST {
+	return &AST{
+		rawCtx: c.raw,
+		rawAST: C.Z3_mk_fpa_numeral_double(c.raw, C.double(v), typ.rawSort),
+	}
+}
+
+// Maps: Z3_mk_string
+func (c *Context) String(v string, typ *Sort) *AST {
+	return &AST{
+		rawCtx: c.raw,
+		rawAST: C.Z3_mk_string(c.raw, C.CString(v)),
 	}
 }
 
